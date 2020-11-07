@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-
 	// Echo instance
 	e := echo.New()
+	e.Static("/", "static")
 
 	// Middleware
 	e.Use(middleware.Logger())
