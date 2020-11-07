@@ -1,18 +1,31 @@
 package main
 
 import (
-	"fmt"
 	"github.com/foolin/goview/supports/echoview-v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/hackformissions/discipulador/model"
+	"github.com/hackformissions/discipulador/storage"
 )
 
-var discipulados []*model.Discipulado
+var db *storage.Store
 
 func main() {
+	var err error
+
+	// Enable line numbers in logging
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	// storage
+	db, err = storage.Init("./data")
+	if err != nil {
+		log.Panicf("Failure. err=%s", err)
+	}
+
 	// Echo instance
 	e := echo.New()
 	e.Static("/", "static")
@@ -26,13 +39,6 @@ func main() {
 
 	// Routes
 	e.GET("/", func(c echo.Context) error {
-		p := &model.Discipulado{
-			ID:   "0",
-			Nome: "T O",
-		}
-		discipulados = append(discipulados, p)
-		fmt.Println(discipulados[0])
-
 		//render with master
 		return c.Render(http.StatusOK, "index", echo.Map{
 			"title": "Index title!",
