@@ -1,11 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"github.com/foolin/goview/supports/echoview-v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"net/http"
+
+	"github.com/hackformissions/discipulador/model"
 )
+
+var discipulados []*model.Discipulado
 
 func main() {
 	// Echo instance
@@ -21,6 +26,13 @@ func main() {
 
 	// Routes
 	e.GET("/", func(c echo.Context) error {
+		p := &model.Discipulado{
+			ID:   "0",
+			Nome: "T O",
+		}
+		discipulados = append(discipulados, p)
+		fmt.Println(discipulados[0])
+
 		//render with master
 		return c.Render(http.StatusOK, "index", echo.Map{
 			"title": "Index title!",
