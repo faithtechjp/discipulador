@@ -19,8 +19,8 @@ func TestMain(t *testing.T) {
 	}
 	db.Write(PERSON_STORE, p.ID, p)
 
-	pp := db.UnsafeReadAllPersons()
 	db.Mu.RLock()
+	pp := db.UnsafeReadAllPersons()
 	if len(pp) != 1 {
 		t.FailNow()
 	}

@@ -2,13 +2,15 @@ package model
 
 type Person struct {
 	ID          string `json:"id,omitempty"`
-	Firstname   string `json:"firstname,omitempty"`
-	Contactinfo `json:"contactinfo,omitempty"`
+	Firstname   string `json:"nome,omitempty"`
+	Contactinfo `json:"contato,omitempty"`
+	Birthdate   string `json:"aniversario,omitempty"`
 }
 
 type Contactinfo struct {
-	City    string `json:"city,omitempty"`
-	Zipcode string `json:"Zipcode,omitempty"`
-	Phone   string `json:"phone,omitempty"`
+	Address string `json:"endereco,omitempty"`
+	City    string `json:"cidade,omitempty"`
+	Zipcode string `json:"cep,omitempty"`
+	Phone   string `json:"telefone,omitempty"`
 	Email   string `json:"email,omitempty"`
 }

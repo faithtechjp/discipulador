@@ -1,12 +1,14 @@
 package main
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
 	"github.com/foolin/goview/supports/echoview-v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/hackformissions/discipulador/model"
 	"github.com/hackformissions/discipulador/storage"
@@ -41,15 +43,49 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		//render with master
 		return c.Render(http.StatusOK, "index", echo.Map{
-			"title": "Index title!",
+			"title": "Preciosos",
 			"add": func(a int, b int) int {
 				return a + b
 			},
 		})
 	})
 
+	// Routes: discipulado
+	e.GET("/discipulados", func(c echo.Context) error {
+		db.Mu.RLock()
+		defer db.Mu.RUnlock()
+		pp := db.UnsafeReadAllPersons()
+		return c.JSON(http.StatusOK, pp)
+	})
+	e.GET("/discipulados/:id", func(c echo.Context) error {
+		db.Mu.RLock()
+		defer db.Mu.RUnlock()
+		pp := db.UnsafeReadAllPersons()
+		return c.JSON(http.StatusOK, pp[c.Param("id")])
+	})
+	e.DELETE("/discipulados/:id", func(c echo.Context) error {
+		err := db.Delete(storage.PERSON_STORE, c.Param("id"))
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, "FAIL")
+		}
+		return c.JSON(http.StatusOK, "OK")
+	})
+	e.POST("/discipulados", func(c echo.Context) error {
+		p := new(model.Person)
+		if err = c.Bind(p); err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		jsonString, _ := json.Marshal(p)
+		hashId := sha256.Sum256([]byte(jsonString))
+		p.ID = hex.EncodeToString(hashId[:])
+		if err = db.Write(storage.PERSON_STORE, p.ID, p); err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		return c.JSON(http.StatusOK, p)
+	})
+
 	e.GET("/page", func(c echo.Context) error {
-		//render only file, must full name with extension
+		//render only file, must have full name with extension
 		return c.Render(http.StatusOK, "page.html", echo.Map{"title": "Page file title!!"})
 	})
 
