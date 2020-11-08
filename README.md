@@ -4,7 +4,7 @@ Durante a quarentena, a população idosa ficou impedida de ver familiares e de 
 # Idéia:
 Sistema formato de um app para idosos (preciosos), que acompanha individualmente cada idoso através de um login especial (líder discipulador) via web.
 
-[Apresentação detalhada do projeto](https://docs.google.com/presentation/d/1BXm2HNW1eh9b9wU_JP_d342fmw4iCKRggohnpPkIkwcd)
+[Apresentação detalhada do projeto](https://docs.google.com/presentation/d/1BXm2HNW1eh9b9wU_JP_d342fmw4iCKRggohnpPkIkwc/edit?usp=sharing)
 
 # Objetivos:
 **Objetivo principal**
