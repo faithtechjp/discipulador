@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/hackformissions/discipulador/model"
 	"github.com/hackformissions/discipulador/storage"
@@ -50,7 +51,19 @@ func main() {
 		})
 	})
 
-	// Routes: discipulado
+	e.GET("/discipulado", func(c echo.Context) error {
+		//render with master
+		db.Mu.RLock()
+		defer db.Mu.RUnlock()
+		pp := db.UnsafeReadAllPersons()
+		return c.Render(http.StatusOK, "discipulado", echo.Map{
+			"title":   "Preciosos: Lista de Discipulados cadastrados",
+			"persons": pp,
+			"now":     time.Now().Format("Mon Jan _2 15:04:05 2006"),
+		})
+	})
+
+	// Routes: discipulados (REST API)
 	e.GET("/discipulados", func(c echo.Context) error {
 		db.Mu.RLock()
 		defer db.Mu.RUnlock()

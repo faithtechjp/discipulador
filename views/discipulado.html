@@ -1,0 +1,45 @@
+{{define "head"}}
+    <style>
+        .principal{ color: red;}
+        hr{ border: 1px #ccc dashed;}
+    </style>
+{{end}}
+
+
+{{define "content"}}
+<!-- Banner -->
+<section id="banner">
+        <div class="content">
+                <header>
+                    <h1 class="preciosos">Lista de Discipulados</h1>
+                </header>
+
+                <!-- Table -->
+                <div class="table-wrapper">
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ range .persons }}
+                        <tr>
+                            <td>{{.Firstname}}</td>
+                            <td>{{.Email}}</td>
+                        </tr>
+                        {{ end }}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td>{{.now}}</td>
+                        </tr>
+                    </tfoot>
+                    </table>
+                </div>
+        </div>
+</section>
+
+{{end}}
